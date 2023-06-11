@@ -80,6 +80,7 @@ class UserController extends Controller
 
         $validate = $request->validate([
             'name' => 'required|min:10',
+            'phone_number' => 'int',
             'email' => 'required|email'
         ]);
 
@@ -89,6 +90,7 @@ class UserController extends Controller
 
         $user = User::find($info->getAuthIdentifier());
         $user->name = $request->name;
+        $user->phone_number = $request->phone_number;
         $user->email = $request->email;
         $user->save();
 

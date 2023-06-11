@@ -31,8 +31,6 @@ class ExamController extends Controller
         $exam = Exam::find($id);
         $questions = $exam->Questions()->get();
 
-
-
         return response()->json(['Exam' => $questions], 200);
     }
 

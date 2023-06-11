@@ -97,7 +97,7 @@ class TeacherController extends Controller
 
         return response()->json('The password has been updated Successfully!', 200);
     }
-
+    
     public function register(Request $request)
     {
         $validator = Validator::validate($request->all(),[
