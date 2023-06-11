@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('Exams', function (Blueprint $table) {
             $table->id();
-            $table->integer('total_marks');
+            $table->integer('total_marks')->nullable();
 
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');

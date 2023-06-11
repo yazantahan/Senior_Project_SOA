@@ -14,18 +14,16 @@ return new class extends Migration
         Schema::create('question_exam_pivot', function (Blueprint $table) {
             $table->id();
 
-            $table->string('choosed_Ans');
-            $table->boolean('is_correct');
+            $table->string('choosed_Ans')->nullable();
+            $table->boolean('is_correct')->nullable();
 
             if (Schema::hasTable('exams') && Schema::hasTable('questions')) {
-                $table->unsignedBigInteger('exam_id');
-                $table->unsignedBigInteger('question_id');
+                $table->unsignedBigInteger('exam_id')->nullable();
+                $table->unsignedBigInteger('question_id')->nullable();
 
                 $table->foreign('exam_id')->references('id')->on('exams');
                 $table->foreign('question_id')->references('id')->on('questions');
             }
-
-            $table->timestamps();
         });
     }
 
