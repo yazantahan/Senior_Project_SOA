@@ -22,13 +22,13 @@ class QuestionController extends Controller
             $query->where('id', $teacher->id);
         })->get();
 
-        return $Questions;
+        return response()->json(['Questions' => $Questions], 200);
     }
 
     public function list() {
         $Questions = Question::all();
 
-        return $Questions;
+        return response()->json(['Questions' => $Questions], 200);
     }
 
     /**
@@ -75,7 +75,7 @@ class QuestionController extends Controller
     {
         $Question = Question::find($id);
 
-        return $Question;
+        return response()->json(['Question' => $Question], 200);
     }
 
     /**
@@ -83,9 +83,9 @@ class QuestionController extends Controller
      */
     public function edit(string $id)
     {
-        $Question = Question::find($id);
+        $Question = Question::findorFail($id);
 
-        return $Question;
+        return response()->json(['Question' => $Question], 200);
     }
 
     /**

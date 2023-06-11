@@ -73,6 +73,28 @@ class TeacherController extends Controller
         ]);
     }
 
+    public function update(Request $request) {
+        $info = Auth('teachers')->user();
+
+        $validate = $request->validate([
+            'name' => 'required|min:10',
+            'phone_number' => 'int',
+            'email' => 'required|email'
+        ]);
+
+        if (!$validate) {
+            return response()->json($validate->errors()->toJson(), 400);
+        }
+
+        $teacher = teacher::find($info->getAuthIdentifier());
+        $teacher->name = $request->name;
+        $teacher->phone_number = $request->phone_number;
+        $teacher->email = $request->email;
+        $teacher->save();
+
+        return response()->json(['message'=>'Profile updated Successfully!'], 200);
+    }
+
     public function updatePassword(Request $request) {
         $info = Auth('teachers')->user();
 
@@ -97,7 +119,7 @@ class TeacherController extends Controller
 
         return response()->json('The password has been updated Successfully!', 200);
     }
-    
+
     public function register(Request $request)
     {
         $validator = Validator::validate($request->all(),[

@@ -16,10 +16,11 @@ class AnswerController extends Controller
     {
         $question = Question::find($id);
 
-            $CorrectAns = CorrectAns::whereHas('Question', function ($query) use ($question) {
-                $query->where('id', $question->id);
-            })->get();
-            return $CorrectAns->isEmpty() ? collect([]) : $CorrectAns;
+        $CorrectAns = CorrectAns::whereHas('Question', function ($query) use ($question) {
+            $query->where('id', $question->id);
+        })->get();
+
+        return response()->json(['Correct Answers' => $CorrectAns], 200);
     }
 
     /**
@@ -33,7 +34,7 @@ class AnswerController extends Controller
             $query->where('id', $Question->id);
         })->get();
 
-        return $WrongAns->isEmpty() ? collect([]) : $WrongAns;;
+        return response()->json(['Wrong Answers' => $WrongAns], 200);
     }
 
     /**
@@ -91,7 +92,9 @@ class AnswerController extends Controller
      */
     public function showCorrectAns(string $id)
     {
-        //
+        $answer = CorrectAns::find($id);
+
+        return response()->json(['Correct Answer' => $answer], 200);
     }
 
     /**
@@ -99,15 +102,9 @@ class AnswerController extends Controller
      */
     public function showWrongAns(string $id)
     {
-        //
-    }
+        $answer = WrongAns::find($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        return response()->json(['Wrong Answer' => $answer], 200);
     }
 
     /**
