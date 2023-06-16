@@ -45,6 +45,10 @@ class Question extends Model
         return $this->hasMany(WrongAns::class);
     }
 
+    public function getWrongAns():HasMany {
+        return $this->hasMany(WrongAns::class)->inRandomOrder();
+    }
+
     public function getNewWrongAnswers($previousWrongAnswers = [])
     {
         $wrongAnswers = $this->WrongAns;

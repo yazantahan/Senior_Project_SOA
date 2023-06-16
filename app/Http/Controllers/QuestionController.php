@@ -31,6 +31,12 @@ class QuestionController extends Controller
         return response()->json(['Questions' => $Questions], 200);
     }
 
+    public function list_cate($cate_id) {
+        $Questions = Category::find($cate_id)->Questions;
+
+        return response()->json(['Questions' => $Questions], 200);
+    }
+
     /**
      * Store a newly created resource in storage.
      */

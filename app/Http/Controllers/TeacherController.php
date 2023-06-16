@@ -129,7 +129,7 @@ class TeacherController extends Controller
             ]
         );
 
-        if ($validator->fails()) {
+        if (!$validator) {
             return response()->json($validator->errors()->toJson(), 400);
         }
 
