@@ -30,8 +30,11 @@ Route::prefix('admin')->controller(AdminController::class)->group(function () {
         Route::post('update_profile', 'update');
         Route::post('change_password', 'updatePassword');
 
+        //Route::post('teacher/create', );
+
         Route::prefix('question')->controller(QuestionController::class)->group( function() {
             Route::get('', 'list');
+            Route::get('/{cate_id}', 'list_cate');
         });
 
         Route::prefix('Answers')->controller(AnswerController::class)->group( function() {
@@ -92,7 +95,7 @@ Route::prefix('category')->controller(CategoryController::class)->group(function
 });
 
 Route::prefix('question')->controller(QuestionController::class)->group(function () {
-    Route::middleware('auth:teachers')->group(function () {
+    Route::middleware('auth:teachers,admins')->group(function () {
         Route::post('create', 'store');
         Route::post('update/{id}', 'update');
         Route::delete('delete/{id}', 'destroy');
