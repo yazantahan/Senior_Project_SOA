@@ -11,7 +11,7 @@ class WrongAns extends Model
     use HasFactory;
 
     protected $fillable = [
-        'Ans',
+        'Answer',
     ];
 
     protected $hidden = [

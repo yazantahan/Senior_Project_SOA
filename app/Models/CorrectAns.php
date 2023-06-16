@@ -10,7 +10,7 @@ class CorrectAns extends Model
     use HasFactory;
 
     protected $fillable = [
-        'Ans'
+        'Answer'
     ];
 
     public function Question() {

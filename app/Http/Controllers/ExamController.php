@@ -48,24 +48,13 @@ class ExamController extends Controller
             }
 
             $ans = collect([]);
-            $correctAnswer = $question->CorrectAns;
-            if (!empty($correctAnswer)) {
-                $ans->push($correctAnswer[0]->Answer);
-            }
+            $correctAnswer = $question->CorrectAns->take(1);
+            $ans->push($correctAnswer[0]->Answer);
 
-            $previousWrongAnswers = collect([]);
-            $wrongAnswers = $question->getNewWrongAnswers($previousWrongAnswers);
-            $previousWrongAnswers = $previousWrongAnswers->merge($wrongAnswers);
-            $ans = $ans->merge($wrongAnswers->pluck('Answer'));
+            $wrongAns = $question->getWrongAns->take(3);
 
-            $wrongAnswers = $question->getNewWrongAnswers($previousWrongAnswers);
-            $previousWrongAnswers = $previousWrongAnswers->merge($wrongAnswers);
-            $ans = $ans->merge($wrongAnswers->pluck('Answer'));
-
-            $ans = $ans->unique()->shuffle()->take(3);
-
-            if (!$ans->contains($correctAnswer[0]->Answer)) {
-                $ans->push($correctAnswer[0]->Answer);
+            for ($i = 0; $i < $wrongAns->count(); $i++) {
+                $ans->push($wrongAns[$i]->Answer);
             }
 
             $exam->push([
@@ -101,7 +90,6 @@ class ExamController extends Controller
                     // Attach the question_exam object to the exam object
                     $exam_id = $exam->id;
                     $exam->Questions()->attach($question_exam, ['question_id' => $question_id, 'exam_id' => $exam_id, 'choosed_Ans' => $correct_answer->Answer, 'is_correct' => true]);
-
 
 
                     $total_marks++;
