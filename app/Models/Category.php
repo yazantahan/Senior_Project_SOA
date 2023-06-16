@@ -23,4 +23,11 @@ class Category extends Model
     public function Questions():hasMany {
         return $this->hasMany(Question::class);
     }
+
+    public function randQuestions():hasMany {
+        return $this->hasMany(Question::class)
+            ->whereHas('CorrectAns')
+            ->whereHas('WrongAns')
+            ->inRandomOrder()->limit(30);
+    }
 }

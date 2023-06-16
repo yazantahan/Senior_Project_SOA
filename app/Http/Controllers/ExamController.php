@@ -8,6 +8,7 @@ use App\Models\Question;
 use App\Models\QuestionExam;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ExamController extends Controller
 {
@@ -38,7 +39,7 @@ class ExamController extends Controller
     {
         $category = Category::findOrFail($cate_id);
 
-        $questions = $category->Questions->take(30)->shuffle();
+        $questions = $category->randQuestions;
 
         $exam = collect([]);
 
