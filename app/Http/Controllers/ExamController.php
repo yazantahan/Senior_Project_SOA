@@ -49,7 +49,7 @@ class ExamController extends Controller
             }
 
             $ans = collect([]);
-            $correctAnswer = $question->CorrectAns->take(1);
+            $correctAnswer = $question->getCorrectAns->take(1);
             $ans->push($correctAnswer[0]->Answer);
 
             $wrongAns = $question->getWrongAns->take(3);

@@ -40,6 +40,10 @@ class Question extends Model
         return $this->HasMany(CorrectAns::class);
     }
 
+    public function getCorrectAns(): hasMany {
+        return $this->HasMany(CorrectAns::class)->inRandomOrder();
+    }
+
     public function WrongAns():HasMany
     {
         return $this->hasMany(WrongAns::class);

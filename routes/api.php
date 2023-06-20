@@ -30,11 +30,9 @@ Route::prefix('admin')->controller(AdminController::class)->group(function () {
         Route::post('update_profile', 'update');
         Route::post('change_password', 'updatePassword');
 
-        //Route::post('teacher/create', );
-
         Route::prefix('question')->controller(QuestionController::class)->group( function() {
+            Route::get('/{cate_id}', 'list');
             Route::get('', 'list');
-            Route::get('/{cate_id}', 'list_cate');
         });
 
         Route::prefix('Answers')->controller(AnswerController::class)->group( function() {
@@ -72,7 +70,11 @@ Route::prefix('user')->controller(UserController::class)->group(function () {
 
 Route::prefix('teacher')->controller(TeacherController::class)->group(function () {
     Route::post('login', 'login');
-    Route::post('register', 'register');
+
+    Route::middleware('auth:admins')->group(function () {
+        Route::post('store', 'register');
+    });
+
     Route::middleware('auth:teachers')->group(function () {
         Route::post('logout', 'logout');
         Route::get('me', 'me');
@@ -103,6 +105,7 @@ Route::prefix('question')->controller(QuestionController::class)->group(function
 
     Route::middleware('auth:teachers')->group(function () {
         Route::get('', 'index');
+        Route::get('/{cate_id}', 'index');
     });
 });
 

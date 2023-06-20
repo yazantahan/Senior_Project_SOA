@@ -13,26 +13,32 @@ class QuestionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($cate_id = null)
     {
         $info = Auth('teachers')->user();
         $teacher = teacher::find($info->getAuthIdentifier());
 
-        $Questions = Question::whereHas('Teacher', function ($query) use ($teacher) {
+        if ($cate_id != null) {
+            $Questions = Question::whereHas('Teacher', function ($query) use ($teacher) {
             $query->where('id', $teacher->id);
-        })->get();
+            })->whereHas('Category', function ($query) use ($cate_id) {
+                $query->where('id', $cate_id);
+            })->get();
+        } else {
+            $Questions = Question::whereHas('Teacher', function ($query) use ($teacher) {
+                $query->where('id', $teacher->id);
+            })->get();
+        }
 
         return response()->json(['Questions' => $Questions], 200);
     }
 
-    public function list() {
-        $Questions = Question::all();
-
-        return response()->json(['Questions' => $Questions], 200);
-    }
-
-    public function list_cate($cate_id) {
-        $Questions = Category::find($cate_id)->Questions;
+    public function list($cate_id = null) {
+        if ($cate_id != null) {
+            $Questions = Category::find($cate_id)->Questions;
+        } else {
+            $Questions = Question::all();
+        }
 
         return response()->json(['Questions' => $Questions], 200);
     }
