@@ -88,9 +88,14 @@ class ExamController extends Controller
                     $question_exam = new QuestionExam();
                     $question_exam->is_correct = true;
                     $question_exam->choosed_Ans = $correct_answer->Answer;
-                    // Attach the question_exam object to the exam object
+
                     $exam_id = $exam->id;
-                    $exam->Questions()->attach($question_exam, ['question_id' => $question_id, 'exam_id' => $exam_id, 'choosed_Ans' => $correct_answer->Answer, 'is_correct' => true]);
+                    $exam->Questions()->attach($question_exam, [
+                        'question_id' => $question_id,
+                        'exam_id' => $exam_id,
+                        'choosed_Ans' => $correct_answer->Answer,
+                        'is_correct' => true
+                    ]);
 
 
                     $total_marks++;
@@ -107,7 +112,11 @@ class ExamController extends Controller
                         $question_exam->choosed_Ans = $wrong_answer->Answer;
                         // Attach the question_exam object to the exam object
                         $exam_id = $exam->id;
-                        $exam->Questions()->attach($question_exam, ['question_id' => $question_id, 'exam_id' => $exam_id, 'choosed_Ans' => $correct_answer->Answer, 'is_correct' => false]);
+                        $exam->Questions()->attach($question_exam, [
+                            'question_id' => $question_id,
+                            'exam_id' => $exam_id,
+                            'choosed_Ans' => $correct_answer->Answer,
+                            'is_correct' => false]);
 
                         break;
                     }

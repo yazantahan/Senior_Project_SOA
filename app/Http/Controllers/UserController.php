@@ -127,11 +127,12 @@ class UserController extends Controller
         $validator = Validator::validate($request->all(),[
                 'name' => 'required|string|between:2,100',
                 'email' => 'required|string|max:100',
-                'password' => 'required|string|min:6',
+                'password' => 'required_with:password_confirmation|same:password_confirmation|string|min:6',
+                'password_confirmation' => 'required'
             ]
         );
 
-        if ($validator->fails()) {
+        if (!$validator) {
             return response()->json($validator->errors()->toJson(), 400);
         }
 

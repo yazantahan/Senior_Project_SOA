@@ -19,7 +19,7 @@ class TeacherFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'email' => fake()->email(),
+            'email' => fake()->unique()->safeEmail(),
             'password' => bcrypt('password'),
         ];
     }

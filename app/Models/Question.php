@@ -53,18 +53,8 @@ class Question extends Model
         return $this->hasMany(WrongAns::class)->inRandomOrder();
     }
 
-    public function getNewWrongAnswers($previousWrongAnswers = [])
-    {
-        $wrongAnswers = $this->WrongAns;
-
-        if (!empty($previousWrongAnswers)) {
-            $wrongAnswers = $wrongAnswers->whereNotIn('id', $previousWrongAnswers->pluck('id'));
-        }
-
-        return $wrongAnswers->shuffle()->take(3);
-    }
-
     public function Exams():belongstoMany {
-        return $this->belongsToMany(Exam::class, 'question_exam_pivot')->withPivot('id', 'is_correct', 'choosed_Ans');
+        return $this->belongsToMany(Exam::class, 'question_exam_pivot')
+            ->withPivot('id', 'is_correct', 'choosed_Ans');
     }
 }
