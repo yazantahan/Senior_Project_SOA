@@ -17,7 +17,7 @@ class Exam extends Model
 
     public function Questions():BelongsToMany {
         return $this->belongsToMany(Question::class, 'question_exam_pivot')->using(QuestionExam::class)
-            ->withPivot('choosed_Ans', 'is_correct');
+            ->withPivot('choosed_Ans', 'is_correct','exam_id', 'question_id');
     }
 
     public function User():BelongsTo {

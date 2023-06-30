@@ -85,18 +85,14 @@ class ExamController extends Controller
             $is_correct = false;
             foreach ($question->CorrectAns as $correct_answer) {
                 if ($choosed_answer == $correct_answer->Answer) {
-                    $question_exam = new QuestionExam();
-                    $question_exam->is_correct = true;
-                    $question_exam->choosed_Ans = $correct_answer->Answer;
 
                     $exam_id = $exam->id;
-                    $exam->Questions()->attach($question_exam, [
-                        'question_id' => $question_id,
+                    QuestionExam::create([
                         'exam_id' => $exam_id,
+                        'question_id' => $question_id,
                         'choosed_Ans' => $correct_answer->Answer,
                         'is_correct' => true
                     ]);
-
 
                     $total_marks++;
                     $is_correct = true;
@@ -107,16 +103,14 @@ class ExamController extends Controller
             if (!$is_correct) {
                 foreach ($question->WrongAns as $wrong_answer) {
                     if ($choosed_answer == $wrong_answer->Answer) {
-                        $question_exam = new QuestionExam();
-                        $question_exam->is_correct = false;
-                        $question_exam->choosed_Ans = $wrong_answer->Answer;
-                        // Attach the question_exam object to the exam object
+
                         $exam_id = $exam->id;
-                        $exam->Questions()->attach($question_exam, [
-                            'question_id' => $question_id,
+                        QuestionExam::create([
                             'exam_id' => $exam_id,
+                            'question_id' => $question_id,
                             'choosed_Ans' => $correct_answer->Answer,
-                            'is_correct' => false]);
+                            'is_correct' => false
+                        ]);
 
                         break;
                     }

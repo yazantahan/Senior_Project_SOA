@@ -9,14 +9,13 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 class QuestionExam extends Pivot
 {
     protected $table = 'question_exam_pivot';
+    public $timestamps = false;
 
     protected $fillable = [
+        'question_id',
+        'exam_id',
         'is_correct',
         'choosed_Ans'
     ];
 
-    protected $hidden = [
-        'created_at',
-        'updated_at'
-    ];
 }
