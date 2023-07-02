@@ -69,7 +69,7 @@ class ExamController extends Controller
 
     public function finish(Request $request)
     {
-        $exam_list = $request->json()->all()[0]['exam'];
+        $exam_list = $request->json()->all()['exam'];
         $exam = new Exam();
         $exam->User()->associate(Auth('users')->user()->getAuthIdentifier());
         $exam->save();
