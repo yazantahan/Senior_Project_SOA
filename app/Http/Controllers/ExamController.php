@@ -44,10 +44,6 @@ class ExamController extends Controller
         $exam = collect([]);
 
         foreach ($questions as $question) {
-            if ($question->correctAns->isEmpty() || $question->wrongAns->isEmpty()) {
-                continue;
-            }
-
             $ans = collect([]);
             $correctAnswer = $question->getCorrectAns->take(1);
             $ans->push($correctAnswer[0]->Answer);

@@ -97,13 +97,10 @@ Route::prefix('category')->controller(CategoryController::class)->group(function
 });
 
 Route::prefix('question')->controller(QuestionController::class)->group(function () {
-    Route::middleware('auth:teachers,admins')->group(function () {
+    Route::middleware('auth:teachers')->group(function () {
         Route::post('create', 'store');
         Route::post('update/{id}', 'update');
         Route::delete('delete/{id}', 'destroy');
-    });
-
-    Route::middleware('auth:teachers')->group(function () {
         Route::get('', 'index');
         Route::get('/{cate_id}', 'index');
     });
@@ -135,7 +132,7 @@ Route::prefix('exam')->controller(ExamController::class)->group(function() {
         Route::get('history', 'index');
     });
 
-    Route::middleware('auth:users,admins')->group(function () {
+    Route::middleware('auth:admins')->group(function () {
         Route::get('/{id}', 'getExam');
     });
 });

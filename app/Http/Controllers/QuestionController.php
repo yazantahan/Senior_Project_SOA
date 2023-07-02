@@ -55,49 +55,22 @@ class QuestionController extends Controller
         ]);
 
         if ($validatedData) {
-            $user = auth()->user();
+            $teacher = auth()->user();
 
-            if ($user->getTable() === 'admins' || $user->getTable() === 'teachers') {
-                $question = new Question();
-                $category = Category::find($request->cate_id);
+            $question = new Question();
+            $category = Category::find($request->cate_id);
 
-                $question->Question = $request->question;
-                $question->Difficulty_flag = $request->difficulty_flag;
-                $question->Category()->associate($category);
+            $question->Question = $request->question;
+            $question->Difficulty_flag = $request->difficulty_flag;
 
-                if ($user->getTable() === 'admins') {
-                    $question->Admin()->associate($user);
-                } else {
-                    $question->Teacher()->associate($user);
-                }
+            $question->Category()->associate($category);
+            $question->Teacher()->associate($teacher);
+            $question->save();
 
-                $question->save();
-
-                return response()->json(["Message"=>"Question successfully Added!", "Question" => $question], 201);
-            }
+            return response()->json(["Message"=>"Question successfully Added!", "Question" => $question], 201);
         }
 
         return response()->json(["Message" => "Failed to add question."], 422);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $Question = Question::find($id);
-
-        return response()->json(['Question' => $Question], 200);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        $Question = Question::findorFail($id);
-
-        return response()->json(['Question' => $Question], 200);
     }
 
     /**
@@ -114,7 +87,7 @@ class QuestionController extends Controller
             $Question = Question::find($id);
 
             $Question->question = $request->question;
-            $Question->Difficulty_flag = $request->Difficulty_flag;
+            $Question->difficulty_flag = $request->difficulty_flag;
 
             $Question->save();
 
@@ -131,6 +104,6 @@ class QuestionController extends Controller
     {
         $Question = Question::destroy($id);
 
-        return response()->json(['Message' => 'Question deleted Successfully!'], 200);
+        return response()->json(['Message' => 'Question deleted Successfully!', 'Question' => $Question], 200);
     }
 }
