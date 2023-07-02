@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticate;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -24,6 +25,10 @@ class teacher extends Authenticate implements JWTSubject
         'remember_token',
         'password'
     ];
+
+    public function Category():belongsTo {
+            return $this->belongsTo(Category::class);
+    }
 
     public function getJWTIdentifier()
     {

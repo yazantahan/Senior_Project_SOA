@@ -17,7 +17,11 @@ return new class extends Migration
             $table->integer('phone_number')->nullable();
             $table->string('email');
             $table->string('password');
-            $table->rememberToken();
+
+            $table->unsignedBigInteger('category_id')->nullable();
+            $table->foreign('category_id')->references('categories')->on('id');
+
+
             $table->timestamps();
         });
     }

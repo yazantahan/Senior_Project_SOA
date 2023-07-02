@@ -17,18 +17,29 @@ class QuestionController extends Controller
     {
         $info = Auth('teachers')->user();
         $teacher = teacher::find($info->getAuthIdentifier());
+        $teacher_cate_id = $teacher->Category()->get();
 
-        if ($cate_id != null) {
-            $Questions = Question::whereHas('Teacher', function ($query) use ($teacher) {
-            $query->where('id', $teacher->id);
-            })->whereHas('Category', function ($query) use ($cate_id) {
-                $query->where('id', $cate_id);
-            })->get();
-        } else {
-            $Questions = Question::whereHas('Teacher', function ($query) use ($teacher) {
-                $query->where('id', $teacher->id);
-            })->get();
+        if (!$teacher->Category()) {
+            if ($cate_id != null) {
+                $Questions = Question::whereHas('Teacher', function ($query) use ($teacher) {
+                    $query->where('id', $teacher->id);
+                })->whereHas('Category', function ($query) use ($cate_id) {
+                    $query->where('id', $cate_id);
+                })->get();
+            } else {
+                $Questions = Question::whereHas('Teacher', function ($query) use ($teacher) {
+                    $query->where('id', $teacher->id);
+                })->get();
+            }
+
+            return response()->json(['Questions' => $Questions], 200);
         }
+
+        $Questions = Question::whereHas('Teacher', function ($query) use ($teacher) {
+            $query->where('id', $teacher->id);
+        })->whereHas('Category', function ($query) use ($teacher_cate_id) {
+            $query->where('id', $teacher_cate_id);
+        });
 
         return response()->json(['Questions' => $Questions], 200);
     }

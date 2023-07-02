@@ -30,4 +30,8 @@ class Category extends Model
             ->whereHas('WrongAns')
             ->inRandomOrder()->limit(30);
     }
+
+    public function Teachers():hasMany {
+        return $this->hasMany(Category::class);
+    }
 }
