@@ -17,6 +17,12 @@ class UserController extends Controller
         $this->middleware('auth.guard:users');
     }
 
+    public function list() {
+        $users = User::all();
+
+        return response()->json(["Users" => $users], 200);
+    }
+
     public function login()
     {
         $credentials = request(['email', 'password']);
@@ -146,5 +152,11 @@ class UserController extends Controller
             'message' => 'User successfully registered',
             'user' => $user
         ], 201);
+    }
+
+    public function destroy($id) {
+        User::destroy($id);
+
+        return response()->json("User successfully deleted!", 200);
     }
 }

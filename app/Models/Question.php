@@ -57,4 +57,9 @@ class Question extends Model
         return $this->belongsToMany(Exam::class, 'question_exam_pivot')
             ->withPivot('id', 'is_correct', 'choosed_Ans');
     }
+
+    public function FinalExams():belongsToMany {
+        return $this->belongsToMany(FinalExam::class, 'final_exam_question_pivot')
+            ->withPivot('id', 'is_correct', 'choosed_Ans');
+    }
 }

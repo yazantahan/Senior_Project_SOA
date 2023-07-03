@@ -15,6 +15,12 @@ class TeacherController extends Controller
         $this->middleware('auth.guard:teachers');
     }
 
+    public function list() {
+        $teachers = Teacher::all();
+
+        return response()->json(["teachers" => $teachers], 200);
+    }
+
     public function login(Request $request)
     {
         $credentials = request(['email','password']);
@@ -144,5 +150,10 @@ class TeacherController extends Controller
             'message' => 'User successfully registered',
             'teacher' => $teacher
         ], 201);
+    }
+
+    public function destroy($id) {
+        Teacher::destroy($id);
+        return response()->json("Teacher successfully deleted!", 200);
     }
 }

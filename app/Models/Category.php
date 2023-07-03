@@ -31,6 +31,13 @@ class Category extends Model
             ->inRandomOrder()->limit(30);
     }
 
+    public function randFinalQuestions():hasMany {
+        return $this->hasMany(Question::class)
+            ->whereHas('CorrectAns')
+            ->whereHas('WrongAns')
+            ->inRandomOrder()->limit(10);
+    }
+
     public function Teachers():hasMany {
         return $this->hasMany(Category::class);
     }

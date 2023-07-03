@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ExamController;
+use App\Http\Controllers\FinalExamController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
@@ -66,6 +67,11 @@ Route::prefix('user')->controller(UserController::class)->group(function () {
         Route::post('update_profile', 'update');
         Route::post('change_password', 'updatePassword');
     });
+
+    Route::middleware('auth:admins')->group(function () {
+        Route::get('/','list');
+        Route::delete('delete/{id}', 'destroy');
+    });
 });
 
 Route::prefix('teacher')->controller(TeacherController::class)->group(function () {
@@ -73,6 +79,8 @@ Route::prefix('teacher')->controller(TeacherController::class)->group(function (
 
     Route::middleware('auth:admins')->group(function () {
         Route::post('store', 'register');
+        Route::get('/', 'list');
+        Route::delete('delete/{id}', 'destroy');
     });
 
     Route::middleware('auth:teachers')->group(function () {
@@ -134,5 +142,17 @@ Route::prefix('exam')->controller(ExamController::class)->group(function() {
 
     Route::middleware('auth:admins')->group(function () {
         Route::get('/{id}', 'getExam');
+    });
+});
+
+Route::prefix('finalexam')->controller(FinalExamController::class)->group(function() {
+    Route::middleware('auth:users')->group(function() {
+        Route::get('start', 'generateFinalExam');
+        Route::post('finish', 'finish');
+        Route::get('history', 'index');
+    });
+
+    Route::middleware('auth:admins')->group(function () {
+        Route::get('/{id}', 'getFinalExam');
     });
 });
