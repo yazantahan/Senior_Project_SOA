@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -133,8 +134,8 @@ class TeacherController extends Controller
                 'name' => 'required|string|between:10,20',
                 'email' => 'required|string|max:100',
                 'password' => 'required|string|min:6',
-            ]
-        );
+                'cate_id' => 'required|int'
+        ]);
 
         if (!$validator) {
             return response()->json($validator->errors()->toJson(), 400);
@@ -144,10 +145,14 @@ class TeacherController extends Controller
         $teacher->name = $request->name;
         $teacher->email = $request->email;
         $teacher->password = Hash::make($request->password);
+
+        $category = Category::find($request->cate_id);
+        $teacher->Category()->associate($category);
+
         $teacher->save();
 
         return response()->json([
-            'message' => 'User successfully registered',
+            'message' => 'Teacher successfully registered',
             'teacher' => $teacher
         ], 201);
     }
