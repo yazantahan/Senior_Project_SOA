@@ -17,13 +17,11 @@ return new class extends Migration
             $table->string('choosed_Ans')->nullable();
             $table->boolean('is_correct')->nullable();
 
-            if (Schema::hasTable('exams') && Schema::hasTable('questions')) {
-                $table->unsignedBigInteger('exam_id')->nullable();
-                $table->unsignedBigInteger('question_id')->nullable();
+            $table->unsignedBigInteger('exam_id')->nullable();
+            $table->unsignedBigInteger('question_id')->nullable();
 
-                $table->foreign('exam_id')->references('id')->on('exams');
-                $table->foreign('question_id')->references('id')->on('questions');
-            }
+            $table->foreign('exam_id')->references('id')->on('exams');
+            $table->foreign('question_id')->references('id')->on('questions');
         });
     }
 
