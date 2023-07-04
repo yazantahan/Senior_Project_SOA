@@ -95,7 +95,7 @@ class QuestionController extends Controller
 
             $question = new Question();
 
-            if (!$teacher->Category()->get()) {
+            if ($teacher->Category()->get() == null) {
                 $category = Category::find($request->cate_id);
             } else {
                 $category = Category::find($teacher->Category()->value('id'));
